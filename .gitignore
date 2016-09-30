@@ -1,0 +1,5 @@
+**/*.o
+serendipity
+
+doc/html
+doc/latex

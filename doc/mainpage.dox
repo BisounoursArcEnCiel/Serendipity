@@ -1,0 +1,16 @@
+/**
+ * \mainpage Serendipity
+ * \section intro_sec Introduction
+ *
+ * \section quick_start Quick Start
+ *
+ * \subsection step1 Step 1: Dependencies
+ *      - c++11
+ *      - boost 1.54 or highter
+ * 
+ * \subsection step2 Step 2: Install
+ *      -# Install libserendipity
+ *          - make
+ *      -# Building doc
+ *          - make doc
+ */
