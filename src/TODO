@@ -3,7 +3,6 @@ Laurent :
 - Doc pour les classes
 
 Clémence :
-- Algorithme des K voisins pour les clusters à partir d'un ensemble d'objets
 - Algorithme pour construire le graphe des clusters à partir d'un ensemble 
 de clusters et d'un agent
 - Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
@@ -15,3 +14,4 @@ A faire :
 - Calcul des distances inter cluster, cluster-agent, inter objet
 - Compléter le README
 - interface utilisateur
+- exceptions
