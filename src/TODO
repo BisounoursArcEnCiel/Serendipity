@@ -9,6 +9,7 @@ de clusters et d'un agent
 - Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
 et un graphe des clusters associé à un agent
 - Doc pour les algorithmes
+- Stockage des graphes, clusters, objets, agents (BdD, texte ?)
 
 A faire :
 - Calcul des distances inter cluster, cluster-agent, inter objet
