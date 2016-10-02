@@ -15,7 +15,7 @@ SRC= $(wildcard */*/*.cpp)
 SRC+= $(wildcard */*.cpp)
 SRC+= $(wildcard *.cpp)
 
-SRC := $(filter-out wildcard tests/test.cpp, $(SRC))
+SRC := $(filter-out wildcard tests/*, $(SRC))
 
 TEST_FILES = $(wildcard tests/*.cpp)
 TEST_FILES+= $(SRC)
@@ -55,7 +55,7 @@ cleandoc:
 	rm -rf doc/html
 	rm -rf doc/latex
 
-cleanfiles: cleanlog cleanreport cleandoc
+cleanfiles: cleanlog cleandoc
 
 mrproper: clean cleanfiles
 	rm -rf $(EXEC)
