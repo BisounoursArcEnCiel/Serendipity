@@ -1,6 +1,0 @@
-#include <objet.h>
-
-class Agent {
-public:
-    virtual int get_object_preference(Objet oo);
-};

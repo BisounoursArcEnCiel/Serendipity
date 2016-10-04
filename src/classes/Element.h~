@@ -1,5 +1,0 @@
-class Element {
- public:
-    //#self égal à #e ?
-    int equals(Element e);
-};
