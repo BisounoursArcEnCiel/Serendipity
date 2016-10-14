@@ -1,0 +1,23 @@
+Laurent :
+- Implémentation des classes cluster, objet, agent, graphe 
+- Doc pour les classes
+- Tri des clusters selon la requête (mots-clés, diversité)
+- Traitement des chaînes de caractères
+- Pour matrice d'adjacence, faire une arête ssi distance entre clusters > d_lim
+
+requête : "genre:[genre] titre:[titre]"
+
+Clémence :
+- Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
+et un graphe des clusters associé à un agent (GRAPHE -> MATRIX)
+Piocher aléaoirement un objet dans chacun des trois premiers clusters dans l'ordre de diversité appartenant au bon niveau de serendipité
+- Numérotation des noeuds dans le graphe des clusters selon le niveau de sérendipité : choisir le centre du champ de l'agent (cluster avec préférence par l'agent > d_lim2) et donner une largeur l des niveaux de sérendipité, quand d(cluster, centre) > i*l => affecter le label i au cluster cluster
+- Doc pour les algorithmes
+- Stockage des graphes, clusters, objets, agents (BdD, texte ?)
+
+A faire :
+- Calcul des distances inter cluster, cluster-agent, inter objet
+- Compléter le README
+- interface utilisateur
+- exceptions
+- Rajouter les nouvelles fonctionnalités
