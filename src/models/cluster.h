@@ -142,6 +142,10 @@
                 return Dist()(this, cl);
             }
 
+	    int get_id(BaseCluster<DistObj>* cl) {
+		return cl.id;
+	    }
+
     };
 
 

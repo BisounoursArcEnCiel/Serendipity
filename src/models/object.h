@@ -89,6 +89,10 @@ namespace models{
             double d(Object<Dist>* obj){
                 return Dist()(this, obj);
             }
+
+	    char* get_name(Object<Dist> obj) {
+		return obj.name;
+	    }
     };
 };
 #endif 

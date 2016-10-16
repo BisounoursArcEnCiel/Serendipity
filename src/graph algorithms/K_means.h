@@ -1,23 +1,24 @@
-#include <Objet.h>
-#include <Cluster.h>
-#include <random_sampling.h>
-#include <misc.h>
+#include <models/object.h>
+#include <models/cluster.h>
+#include <misc/random_sampling.h>
+#include <misc/misc.h>
+#include <config.h>
 
 
-int* update_assign(int* currentAssign, Objet* objectSet, Objet assignedObject, Cluster cl) {
+int* update_assign(int* currentAssign, object* objectSet, object assignedObject, cluster cl) {
     int n = get_array_length(objectSet);
     int i = 0;
     int index = -1;
 
     while((index < 0) & (i < n)) {
-	if (object_set[i].equals(assignedObject)) {
+	if (objectSet[i].get_name() == assignedObject.get_name()) {
 	    index = i;
 	};
 	i++;
     };
     if (i == n) throw NotFound();
 
-    currentAssign[i] = cl.get_identifier;
+    currentAssign[i] = cl.get_id();
 
     return currentAssign;
 };
@@ -26,15 +27,14 @@ int* update_assign(int* currentAssign, Objet* objectSet, Objet assignedObject, C
 //Initialise les clusters pour K Means
 //Pour le moment, tire aléatoirement k objets dans
 //l'ensemble d'objets (algorithme R implémenté dans misc.h)
-Cluster* initialization(Objet* objectSet, int k) {
-    Objet* initObjects = random_sampling(objectSet, k);
-    Cluster initClusters[k];
+cluster* initialization(object* objectSet, int k) {
+    object* initObjects = random_sampling(objectSet, k);
+    cluster initClusters[k];
     int i;
 
     for(i=0; i < k; i++) {
-	Cluster cl = new Cluster;
-	cl.change_identifier(i);
-	cl.add_to_cluster(initObjects[i]);
+	cluster cl = new cluster;
+	cl.add(initObjects[i]);
 	initClusters[i] = cl;
     };
 
@@ -42,17 +42,19 @@ Cluster* initialization(Objet* objectSet, int k) {
 };
 
 
-int* get_current_assign_init(Objet* objectSet, Cluster* clusterSet, int k, int n) {
+int* get_current_assign_init(object* objectSet, cluster* clusterSet, int k, int n) {
     int currentAssign[n];
     int i;
 
     for(i=0; i < k; i++) {
-	Objet* clObject = clusters[i].enumerate_cluster();
+	object* clObject = clusters[i].begin();
 	currentAssign = update_assign(currentAssign, objectSet, clObject[0], clusters[i]);
     };
 
     return currentAssign;
 };
+
+
 
 int* init_assign(int n) {
     int i;
@@ -64,6 +66,8 @@ int* init_assign(int n) {
 
     return lastAssign;
 };
+
+
 
 //deepcopy
 int* copy_assignment(int* currentAssign, int n) {
@@ -79,6 +83,7 @@ int* copy_assignment(int* currentAssign, int n) {
 };
 
 
+
 int should_stop(int* currentAssign, int* lastAssign, int n) {
     int i = 0;
     
@@ -91,31 +96,36 @@ int should_stop(int* currentAssign, int* lastAssign, int n) {
     return 0;
 };
 
-Objet* initialize_means(Cluster* clusterSet, int k) {
-    Objet means[k];
+
+
+object* initialize_means(cluster* clusterSet, int k) {
+    object means[k];
     int i;
     
     for(i=0; i < k; i++) {
-	Objet* clObject = clusterSet[i].enumerate_cluster();
+	object* clObject = clusterSet[i].begin();
 	means[i] = clObject[0];
     };
 
     return means;
 };
 
+
+
+
 //Cluster non vide, car fonction appelée juste après avoir ajouté un élément
-Objet compute_mean(Cluster cl) {
+object compute_mean(cluster cl) {
     float minDist = inf;
-    Objet currentMin;
-    Objet* obj_in_cluster = cl.enumerate_cluster();
+    object currentMin;
+    object* obj_in_cluster = cl.begin();
     int n = get_array_length(objCluster);
     int i, j;
 
     for(i = 0; i < n; i++) {
 	float dist = 0;
-	Objet currentObject = objInCluster[i]
+	object currentObject = objInCluster[i]
 	for(j = 0; j < n; j++) {
-	    dist += currentObject.distance_to_object(objInCluster[j]);
+	    dist += currentobject.d(objInCluster[j]);
 	};
 	if (dist < min_dist) {
 	    minDist = dist;
@@ -125,16 +135,19 @@ Objet compute_mean(Cluster cl) {
     return currentMin;
 };
 
+
+
+
 //dans le cas où on augmente k le nombre de clusters
 //#newMean n'apparaît pas dans #means
-Objet* update_means(int k, Objet* means, Objet object) {
-    Objet newMeans[k];
+object* update_means(int k, object* means, object obj) {
+    object newMeans[k];
     int i;
 
     for(i=0; i < k-1; i++) {
 	newMeans[i] = means[i];
     };
-    newMeans[k] = object;
+    newMeans[k] = obj;
 
     return newMeans;
 };
@@ -143,15 +156,15 @@ Objet* update_means(int k, Objet* means, Objet object) {
 
 //dans le cas où on augmente k le nombre de clusters
 //#object n'apparaît pas dans un des clusters dans #clusterSet
-Objet* update_clusters(int k, Cluster* clusterSet, Objet object) {
-    Cluster newClusterSet[k];
+object* update_clusters(int k, cluster* clusterSet, object obj) {
+    cluster newClusterSet[k];
     int i;
 
     for(i=0; i < k-1; i++) {
 	newClusterSet[i] = clusterSet[i];
     };
-    newClusterSet[k] = new Cluster;
-    newClusterSet[k].add_to_cluster(object);
+    newClusterSet[k] = new cluster;
+    newClusterSet[k].add(obj);
 
     return newClusterSet;
 };
@@ -164,25 +177,25 @@ Objet* update_clusters(int k, Cluster* clusterSet, Objet object) {
 //est trop importante
 //Typiquement: pour tout #m, dist(#m, #oo) > distLim
 //L'algo retourne 0 ssi il n'y a pas eu de problème
-Cluster* k_means(int k, float distLim, Objet* objectSet) {
-    Cluster* clusterSet = initialization(objectSet, k);
+cluster* k_means(int k, float distLim, object* objectSet) {
+    cluster* clusterSet = initialization(objectSet, k);
     //#object_set doit être non vide !
     int n = get_array_length(object_set);
     int* currentAssign = get_current_assign_init(objectSet, clusterSet, k, n);
     int lastAssign = init_assign(n);
-    Objet* means = initialize_means(clusterSet, k);
+    object* means = initialize_means(clusterSet, k);
     int shouldStop = 0;
     int i, j;
 
     while (!shouldStop) {
 	for(i=0; i < n; i++) {
-	    Objet object = objectSet[i];
+	    object obj = objectSet[i];
 	    float minDist = inf;
 	    int clusterId = -1;
 	    for(j=0; j < k; j++) {
-		Objet mean = means[j];
-		if (!(mean.equals(object))) {
-		    float dist = mean.distance_to_object(object);
+		object mean = means[j];
+		if (!(mean.get_name() == obj.get_name())) {
+		    float dist = mean.d(obj);
 		    if (dist < minDist & dist <= distLim) {
 			minDist = dist;
 			clusterId = j;
@@ -191,16 +204,16 @@ Cluster* k_means(int k, float distLim, Objet* objectSet) {
 	    };
 	    //attribution à un autre cluster
 	    if ((clusterId > 0) & !(currentAssign[i] == clusterId)) {
-		clusterSet[currentAssign[i]].remove_from_cluster(object);
-		clusterSet[clusterId].add_to_cluster(object);
+		clusterSet[currentAssign[i]].remove(obj);
+		clusterSet[clusterId].add(obj);
 		currentAssign[i] = clusterId;
 	    }
 	    //création d'un nouveau cluster
 	    else if (clusterId < 0) {
 		k++;
-		means = update_means(k, means, object);
-		clusterSet = update_clusters(k, clusterSet, object);
-		clusterSet[currentAssign[i]].remove_from_cluster(object);
+		means = update_means(k, means, obj);
+		clusterSet = update_clusters(k, clusterSet, obj);
+		clusterSet[currentAssign[i]].remove(obj);
 		means[currentAssign[i]] = compute_mean(clusterSet[currentAssign]);
 		currentAssign[i] = k;
 	    };

@@ -1,27 +1,28 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <misc.h>
-#include <Element.h>
-#include <exceptions.h>
+#include <misc/misc.h>
+#include <models/object.h>
+#include <misc/exceptions.h>
 
 struct sampling {
     //the set of selected elements
-    Element* reservoir;
+    object* reservoir;
     //the set of non-selected elements
-    Element* set;
+    object* set;
 };
 
-sampling swap(sampling sample_set, Element e, int i, int j) {
-    if (sample_set.set[i].equals(e)) {
+sampling swap(sampling sample_set, object e, int i, int j) {
+    //Les names sont des identifiants uniques
+    if (sample_set.set[i].get_name() == e.get_name()) {
 	sample_set.set[i] = sample_set.reservoir[j];
     };
     sample_set.reservoir[j] = e;
     return sample_set;
 };
 
-Element* random_selection(Element* initial_set, int number_selected) {
-    //initial_set est supposé non vide !!
+object* random_selection(object* initial_set, int number_selected) {
+    //initial_set est supposé non vide !
     int n = get_array_length(initial_set);
     if (number_selected > n) {
 	throw WrongLength();
@@ -31,8 +32,8 @@ Element* random_selection(Element* initial_set, int number_selected) {
     };
     int i, j;
     sampling sample_set;
-    Element sample_set.reservoir[number_selected];
-    Element sample_set.set[n];
+    object sample_set.reservoir[number_selected];
+    object sample_set.set[n];
 
     //initialisation du réservoir
     for(j=0; j < number_selected; j++) {

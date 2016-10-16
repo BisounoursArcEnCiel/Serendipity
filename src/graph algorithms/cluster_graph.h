@@ -1,9 +1,8 @@
-#include <Cluster.h>
-#include <Agent.h>
+#include <models/cluster.h>
+#include <models/agent.h>
 #include <graphs/matrix.h>
-#include <vector.h>
 
-Matrix get_cluster_graph(Cluster* clusters, int nb_clusters, Agent a) {
+Matrix get_cluster_graph(cluster* clusters, int nb_clusters, agent a) {
     Matrix<dcluster, dobjet> m;
     int i;
     for(i = 0; i < nb_clusters; ++i) {
