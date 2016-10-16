@@ -1,0 +1,1 @@
+/* - Numérotation des noeuds dans le graphe des clusters selon le niveau de sérendipité : choisir le centre du champ de l'agent (cluster avec préférence par l'agent > d_lim2) et donner une largeur l des niveaux de sérendipité, quand d(cluster, centre) > i*l => affecter le label i au cluster cluster */
