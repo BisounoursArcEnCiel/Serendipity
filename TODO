@@ -1,5 +1,4 @@
 Laurent :
-- Implémentation des classes cluster, objet, agent, graphe 
 - Doc pour les classes
 - Tri des clusters selon la requête (mots-clés, diversité)
 - Traitement des chaînes de caractères

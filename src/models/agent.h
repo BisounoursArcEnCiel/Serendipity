@@ -58,6 +58,16 @@ class BaseAgent{
         float get(cluster_id_t key){
             return (cl_preferences.find(key))->second;
         }
+        
+        float pref(BaseObject* obj){
+            printf("must be defined\n");
+            assert(false);
+            return INFINITY;
+        }
+
+        float pref(BaseObject& obj){
+            return pref(&obj);
+        }
 };
 
 template<typename DistCl>

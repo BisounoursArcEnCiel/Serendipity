@@ -26,7 +26,7 @@
       **/
     //https://accu.org/index.php/journals/389
      template<typename DistObj>
-    class BaseClusterIterator : std::iterator<std::forward_iterator_tag, BaseObject >{
+    class BaseIterator : std::iterator<std::forward_iterator_tag, BaseObject >{
         protected:
             typename std::map<object_id_t, BaseObject>::iterator it;
             typedef std::map<object_id_t, BaseObject> map_t;
@@ -39,7 +39,7 @@
             typedef BaseObject         &reference;
             typedef const BaseObject   &const_reference;
     */
-            BaseClusterIterator(map_t& map){
+            BaseIterator(map_t& map){
                 it = map.begin();
             }
     
@@ -96,6 +96,26 @@
             void remove(BaseObject& obj){
                 return remove(obj.name);
             }
+            
+            bool exists(BaseObject* obj){
+                return objects.count(obj->name)>0;
+            }
+
+            bool exists(BaseObject& obj){
+                return exists(&obj);
+            }
+
+            /**
+             * @return #(C1 \cap C2) 
+             */
+            int intersect(BaseCluster* cl){
+                int i = 0;
+                for(std::map<object_id_t, BaseObject>::iterator it= objects.begin;
+                        it != objects.end(); ++it){
+                    i += cl->exists(it->second) ? 1 : 0;
+                }
+                return i;
+            }
 
             /** STL Container **/
             typedef BaseObject         value_type;
@@ -126,9 +146,9 @@
                 return objects[id];
             }
 
-            typedef BaseClusterIterator<DistObj> iterator; 
-            iterator begin(){ return iterator(objects); }
-            iterator end(){ return iterator(objects); }
+            typedef BaseIterator<DistObj> Iterator; 
+            Iterator begin(){ return Iterator(objects); }
+            Iterator end(){ return Iterator(objects); }
      };
     
     template<typename Dist, typename DistObj>

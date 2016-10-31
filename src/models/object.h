@@ -60,7 +60,11 @@ namespace models{
                 float> >( key, std::pair<std::string,float>(value, weight)));
             }
 
+           
+            i_attrs_t& getIAttrs(){ return i_attrs; } 
             
+            str_attrs_t& getStrAttrs(){ return str_attrs; } 
+
             /**
              *
              * @warning Throw exception if key not in i_attrs
@@ -68,7 +72,14 @@ namespace models{
             std::pair<int,float> getInt(std::string key){
                 return (i_attrs.find(key))->second;
             }
+           
+            int getOnlyInt(std::string key){
+                return getInt(key).first;
+            }
 
+            bool existsInt(std::string key){
+                return i_attrs.count(key) > 0;
+            }
 
             /**
              *
@@ -76,6 +87,14 @@ namespace models{
              */
             std::pair<std::string,float> getStr(std::string key){
                 return (str_attrs.find(key))->second;
+            }
+
+            bool existsStr(std::string key){
+                return str_attrs.count(key) > 0;
+            }
+
+            std::string getOnlyStr(std::string key){
+                return getStr(key).first;
             }
     };
     
