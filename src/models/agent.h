@@ -11,9 +11,11 @@
 #include <string>
 #include <map>
 #include <utility>
+#include <assert.h>
 
 #include "object.h"
 #include "cluster.h"
+#include "../misc/misc.h"
 
 namespace models{
     

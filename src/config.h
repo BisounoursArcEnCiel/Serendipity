@@ -27,8 +27,4 @@
      #define LOG_PATH (fs::path("log"))
 #endif
 
-#ifndef INFINITY
-    #define INFINITY -1
-#endif
-
 #endif //CONFIG_H

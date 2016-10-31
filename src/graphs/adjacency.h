@@ -48,6 +48,7 @@ namespace graphs{
                 for(size_t i=0; i<n; i++){
                     node_t* tmp = index[i];
                     double d = tmp->d(node);
+                    d = (d > D_LIM) ? INFINITY : d;
                     if( d != INFINITY && i!=n)
                         adjacency[i][n] = d;
 

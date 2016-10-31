@@ -1,4 +1,11 @@
-//@array doit être non vide
-int get_array_length(void* array) {
-    return sizeof(array)/sizeof(array[0]);
-};
+#ifndef MISC_H
+    #define MISC_H
+
+    #ifndef D_LIM
+        #define D_LIM 0.5
+    #endif
+
+    #ifndef INFINITY
+        #define INFINITY -1
+    #endif
+#endif //MISC_H

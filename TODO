@@ -1,10 +1,6 @@
 Laurent :
 - Doc pour les classes
 - Tri des clusters selon la requête (mots-clés, diversité)
-- Traitement des chaînes de caractères
-- Pour matrice d'adjacence, faire une arête ssi distance entre clusters > d_lim
-
-requête : "genre:[genre] titre:[titre]"
 
 Clémence :
 - Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
@@ -15,7 +11,6 @@ Piocher aléatoirement un objet dans chacun des trois premiers clusters dans l'o
 - Stockage des graphes, clusters, objets, agents (BdD, texte ?)
 
 A faire :
-- Calcul des distances inter cluster, cluster-agent, inter objet
 - Compléter le README
 - interface utilisateur
 - exceptions

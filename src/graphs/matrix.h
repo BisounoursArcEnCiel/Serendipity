@@ -44,8 +44,11 @@ namespace graphs{
                 matrix[n][n] = 0;
 
                 for(size_t i=0; i<n; i++){
-                    matrix[i].push_back( index(i)->d(node) );
-                    matrix[n][i] = node->d(index(i));
+                    double d = node->d(index(i));
+                    d = (d > D_LIM) ? INFINITY : d;
+
+                    matrix[i].push_back(d);
+                    matrix[n][i] = d;               
                 }
             }
 
