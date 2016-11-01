@@ -1,6 +1,7 @@
 #include "src/models/agent.h"
 
 #include "src/request/request.h"
+#include "src/request/handler.h"
 
 #include "src/distances/obj2obj.h"
 #include "src/distances/agent2cluster.h"

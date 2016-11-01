@@ -64,6 +64,8 @@ namespace models{
             i_attrs_t& getIAttrs(){ return i_attrs; } 
             
             str_attrs_t& getStrAttrs(){ return str_attrs; } 
+            
+            size_t size_attrs(){ return i_attrs.size() + str_attrs.size(); }
 
             /**
              *
