@@ -13,15 +13,17 @@
 #include <vector>
 #include <boost/algorithm/string.hpp>
 
+#include "../misc/misc.h"
+
 namespace request{
 
 class Request{    
     protected:
-        std::map<std::string, std::vector<int> > i_attrs;
-        std::map<std::string, std::vector<std::string> > str_attrs;
+        typedef std::map<std::string, std::vector<int> > i_attrs_t;
+        typedef std::map<std::string, std::vector<std::string> > str_attrs_t;
+        i_attrs_t i_attrs;
+        str_attrs_t str_attrs;
         
-        /** @brief msg to display in case of failure */
-        std::string err_msg = ""; 
         int status = 0; //>0 valid
     public:
 
@@ -42,18 +44,23 @@ class Request{
                     name = tmp[0];
                     type = "s";
                     data = tmp[1];
-                }else if( tmp.size() == 3 &&( tmp[1] == "s" || tmp[1] == "i")){
+                }else if( tmp.size() == 3 ){
                     name = tmp[0];
                     type = tmp[1];
                     data = tmp[2];
                 }else{
                     status = -1;
-                    err_msg = "Invalid request";
+                    fprintf(stderr, "Invalide request\n");
                     break;
                 }
                     
                 std::vector<std::string> values;
                 boost::split(values, data, boost::is_any_of(","));
+               
+                boost::trim(name);
+                boost::trim(type);
+                for(size_t i=0; i<values.size(); ++i)
+                    boost::trim(values[i]);
 
                 if( type == "s" )
                     str_attrs[name] = values;
@@ -65,11 +72,16 @@ class Request{
                         }
                     }catch( std::invalid_argument e){
                         status=-1;
-                        err_msg = "Invalid argument for" +name;  
+                        fprintf(stderr, "Invalid integer values for attribut "  RED  "%s " RESET "\n", name.c_str());
                         break;
                     }
                     i_attrs[name] = ivalues;
+                }else{
+                    status = -1;
+                    fprintf(stderr, "Invalid type for attribut " RED "%s " RESET "\n", name.c_str());
+                    break;
                 }
+
                     
                 status = 1; 
             }
@@ -80,6 +92,22 @@ class Request{
         std::map<std::string, std::vector<int> > get_i_attrs(){ return i_attrs; }
         std::map<std::string, std::vector<std::string> > get_str_attrs(){ 
             return str_attrs;
+        }
+
+        void print(){
+            for(i_attrs_t::iterator it=i_attrs.begin(); it!=i_attrs.end(); ++it){
+                printf("%s=[", (it->first).c_str());
+                for(size_t i=0; i<(it->second).size(); ++i)
+                    printf(" %d,", (it->second)[i]); 
+                printf("]\n");
+            } 
+            
+            for(str_attrs_t::iterator it=str_attrs.begin(); it!=str_attrs.end(); ++it){
+                printf("%s=[", (it->first).c_str());
+                for(size_t i=0; i<(it->second).size(); ++i)
+                    printf(" \"%s\",", (it->second)[i].c_str()); 
+                printf("]\n");
+            }
         }
 };
 }

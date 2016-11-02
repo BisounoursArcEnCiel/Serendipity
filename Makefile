@@ -8,7 +8,13 @@ CPPFLAGS = -D ENABLE_LOG_STATUS=1
 LDFLAGS= -lboost_serialization -lboost_filesystem -lboost_system -lboost_log -lboost_log_setup -lboost_thread
 LDFLAGS+= -pthread  -lboost_unit_test_framework
 
-OPTFLAG=-O3
+
+RELEASE=no
+ifeq ( $(RELEASE),yes)
+	OPTFLAG=-O3
+else
+	OPTFLAG=
+endif
 
 EXEC= serendipity
 SRC= $(wildcard */*/*.cpp)
@@ -36,7 +42,7 @@ _test: $(TEST_OBJ)
 %.o: %.cpp 
 	$(CXX) $(CPPFLAGS) $(OPTFLAG) -c -o $@  $< $(CXXFLAGS)
 
-.PHONY: clean mrproper multi doc test
+.PHONY: clean mrproper multi doc test release
 test:
 	CPPFLAGS=-D ENABLE_LOG_STATUS=0
 	$(MAKE) _test
