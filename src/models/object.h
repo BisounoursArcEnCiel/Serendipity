@@ -60,10 +60,11 @@ namespace models{
                 float> >( key, std::pair<std::string,float>(value, weight)));
             }
 
-           
-            i_attrs_t& getIAttrs(){ return i_attrs; } 
+            object_id_t get_name(){ return name; }
+
+            i_attrs_t& get_i_attrs(){ return i_attrs; } 
             
-            str_attrs_t& getStrAttrs(){ return str_attrs; } 
+            str_attrs_t& get_str_attrs(){ return str_attrs; } 
             
             size_t size_attrs(){ return i_attrs.size() + str_attrs.size(); }
 

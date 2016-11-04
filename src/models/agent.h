@@ -62,9 +62,10 @@ class BaseAgent{
         }
         
         float pref(BaseObject* obj){
-            printf("must be defined\n");
-            assert(false);
-            return INFINITY;
+            if( obj_preferences.count(obj->get_name()) == 0)
+                return 0;
+            else
+                return obj_preferences[obj->get_name()];
         }
 
         float pref(BaseObject& obj){
@@ -83,6 +84,17 @@ class Agent : public BaseAgent{
         template<typename DistObj>
         double dCl(Cluster<DistCl, DistObj>* cl){
             return DistCl()( this, cl );
+        }
+
+        template<typename DistObj>
+        float pref(Cluster<DistCl, DistObj>* cl){
+            float p =0;
+
+            typename models::Cluster<DistObj, DistObj>::Iterator it;
+            for( it = cl->begin(); it!=cl->end() ; ++it)
+                p += pref( (*it) );
+            
+            return p;
         }
 };
 }
