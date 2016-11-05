@@ -6,7 +6,7 @@
 // USAGE: edges: pair of weight/destination, source, target
 
 #include <utility>
-#include <misc/misc.h>
+#include <../misc/misc.h>
 
 using namespace std;
 

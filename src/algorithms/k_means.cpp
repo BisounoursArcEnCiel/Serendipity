@@ -1,8 +1,8 @@
 #include <tuple>
 
-#include <models/object.h>
-#include <models/cluster.h>
-#include <misc/random_sampling.cpp>
+#include "../models/object.h"
+#include "../models/cluster.h"
+#include "../misc/random_sampling.cpp"
 #include <config.h>
 
 using namespace std;

@@ -26,6 +26,11 @@
         #define T_LEVEL 5
     #endif
 
+// Pour la pertinence vis-à-vis d'une requête
+    #ifndef T_REQ
+        #define T_REQ 50
+    #endif
+
     #ifndef INFINITY
         #define INFINITY -1
     #endif

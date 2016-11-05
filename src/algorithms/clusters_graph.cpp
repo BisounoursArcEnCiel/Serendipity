@@ -1,8 +1,8 @@
-#include <models/cluster.h>
-#include <models/agent.h>
-#include <graphs/matrix.h>
-#include <distances/cluster2cluster.h>
-#include <distances/obj2obj.h>
+#include "../models/cluster.h"
+#include "../models/agent.h"
+#include "../graphs/matrix.h"
+#include "../distances/cluster2cluster.h"
+#include "../distances/obj2obj.h"
 
 using namespace std;
 

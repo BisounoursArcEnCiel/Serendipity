@@ -1,6 +1,6 @@
-#include <models/object.h>
-#include <models/cluster.h>
-#include <misc/misc.h>
+#include "../models/object.h"
+#include "../models/cluster.h"
+#include "../misc/misc.h"
 #include <config.h>
 
 using namespace std;
