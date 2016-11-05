@@ -8,6 +8,8 @@ Clémence :
 - Stockage des graphes, clusters, objets, agents (BdD, texte ?)
 
 A faire :
+- Tests
+- Implémenter les approches communiste et capitaliste
 - Compléter le README
 - interface utilisateur
 - exceptions

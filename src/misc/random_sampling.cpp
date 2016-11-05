@@ -2,7 +2,7 @@
 #include <time.h>
 #include <tuple>
 
-#include <misc/misc.h>
+#include "misc.h"
 #include <models/object.h>
 
 typedef tuple<vector<object>, vector<object>> sampling;
