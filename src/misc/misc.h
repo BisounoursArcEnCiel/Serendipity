@@ -1,8 +1,19 @@
 #ifndef MISC_H
     #define MISC_H
 
+// Pour les arêtes du graphe des blobs
     #ifndef D_LIM
         #define D_LIM 0.5
+    #endif
+
+// Pour rapprocher deux objets de deux blobs différents
+    #ifndef T_BLOB
+        #define T_BLOB 0.5
+    #endif
+
+// Pour créer un nouveau cluster dans K-Means
+    #ifndef T_CLUST
+        #define T_CLUST 0.5
     #endif
 
     #ifndef INFINITY

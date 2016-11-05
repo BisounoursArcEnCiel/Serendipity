@@ -1,59 +1,65 @@
 #include <stdlib.h>
 #include <time.h>
+#include <tuple>
 
 #include <misc/misc.h>
 #include <models/object.h>
-#include <misc/exceptions.h>
 
-struct sampling {
-    //the set of selected elements
-    object* reservoir;
-    //the set of non-selected elements
-    object* set;
+typedef tuple<vector<object>, vector<object>> sampling;
+
+//___________________________________________________________________
+// SWAPPING STEP
+
+sampling swap(vector<object>set, vector<object>reservoir, object e, int i, int j) {
+    sampling res;
+    // Les names sont des identifiants uniques
+    if (set[i].get_name() == e.get_name()) {
+        set[i] = reservoir[j];
+    };
+    reservoir[j] = e;
+    get<0>res = set;
+    get<1>res = reservoir;
+    return (res);
 };
 
-sampling swap(sampling sample_set, object e, int i, int j) {
-    //Les names sont des identifiants uniques
-    if (sample_set.set[i].get_name() == e.get_name()) {
-	sample_set.set[i] = sample_set.reservoir[j];
-    };
-    sample_set.reservoir[j] = e;
-    return sample_set;
-};
+//___________________________________________________________________
+// SELECTION STEP
 
-object* random_selection(object* initial_set, int number_selected) {
-    //initial_set est supposé non vide !
-    int n = get_array_length(initial_set);
-    if (number_selected > n) {
-	throw WrongLength();
+vector<object> random_selection(vector<object>initSet, vector<object>reservoir, int k) {
+    int n = initSet.size();
+    if (k > n) {
+        return (reservoir);
     };
-    if (number_selected == n) {
-	return initial_set;
+    if (k == n) {
+	return (initSet);
     };
+    
     int i, j;
-    sampling sample_set;
-    object sample_set.reservoir[number_selected];
-    object sample_set.set[n];
+    sampling s;
+    vector<object> set;
 
-    //initialisation du réservoir
-    for(j=0; j < number_selected; j++) {
-	sample_set.reservoir[j] = initial_set[j];
+    // Initialisation du réservoir
+    for(j=0; j < k; ++j) {
+	reservoir.push_back(initSet[j]);
     };
-    //initialisation du set
-    for(i=0; i < number_selected; i++) {
-	sample_set.set[i] = initial_set[0].empty();
+    
+    // Initialisation du set
+    for(i=0; i < k; ++i) {
+	object oo;
+	set[i] = oo;
     };
-    for(i=number_selected; i < n; i++) {
-	sample_set.set[i] = initial_set[i];
+    for(i=k; i < n; ++i) {
+	set[i] = initSet[i];
     };
 
-    //Sampling
     srand (time(NULL));
-    for(i=number_selected; i < n; i++) {
+    for(i=k; i < n; ++i) {
 	j = rand() % i;
-	if (j < number_selected) {
-	    sample_set = swap(sample_set, initial_set[i], i, j);
+	if (j < k) {
+	    s = swap(set, reservoir, initSet[i], i, j);
+	    set = get<0>s;
+	    reservoir = get<1>s;
 	};
     };
-    return sample_set.reservoir;
+    return (reservoir);
 };
