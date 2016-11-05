@@ -2,12 +2,13 @@
 
 #include <models/object.h>
 #include <models/cluster.h>
-#include <misc/random_sampling.h>
+#include <misc/random_sampling.cpp>
 #include <config.h>
 
 using namespace std;
 
 typedef tuple<vector<cluster>, vector<int>, vector<object>> initResult;
+typedef tuple<vector<cluster>, vector<int>> endResult;
 
 //_______________________________________________________________________________
 //INITIALISATION DU K-MEANS
@@ -76,7 +77,8 @@ object compute_mean(cluster cl) {
 // @clustersSet le tableau des clusters (non initialisé)
 // @means le tableau des moyennes (non initialisé)
 // Retourne le tableau des clusters
-cluster* k_means(int k, vector<object>objectSet, vector<cluster>clustersSet, vector<int>currAssign, vector<object>means) {
+endResult k_means(int k, vector<object>objectSet, vector<cluster>clustersSet, vector<int>currAssign, vector<object>means) {
+    endResult result;
     int n = objectSet.size();
     for (i = 0; i < n; ++i) currAssign.push_back(INFINITY);
     initResult res = initialization(objectSet, k, clustersSet, currAssign, means);
@@ -134,5 +136,7 @@ cluster* k_means(int k, vector<object>objectSet, vector<cluster>clustersSet, vec
 	};
     };
 
-    return (clustersSet);
+    get<0>result = clustersSet;
+    get<1>result = currAssign;
+    return (result);
 };

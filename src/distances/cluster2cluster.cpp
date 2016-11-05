@@ -8,7 +8,7 @@ namespace distances{namespace cl2cl{
         d1 /= static_cast<double>(cl1->size()+cl2->size);
 
         double d2 = 0;
-        printf("faut il rajouter la distance où on parcours tous les agents\n");
+        printf("faut-il rajouter la distance où on parcourt tous les agents\n");
         assert(false);
         return d1 + d2;
     }
