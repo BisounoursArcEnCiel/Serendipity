@@ -4,9 +4,6 @@ Laurent :
 - Distances
 
 Clémence :
-- Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
-et un graphe des clusters associé à un agent (GRAPHE -> MATRIX) ***
-- Numérotation des noeuds dans le graphe des clusters selon le niveau de sérendipité : choisir le centre du champ de l'agent ***
 - Doc pour les algorithmes
 - Stockage des graphes, clusters, objets, agents (BdD, texte ?)
 

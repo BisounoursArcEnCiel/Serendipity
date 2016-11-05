@@ -46,7 +46,7 @@ initResult initialization(vector<object>objectSet, int k, vector<cluster>cluster
 object compute_mean(cluster cl) {
     float minDist = INFINITY;
     object currMin;
-    vector<object> objVector = cl.begin();
+    vector<object> objVector = BaseCluster::BaseIterator it = cl.begin();
     int size_cl = objVector.size();
     int i, j;
 

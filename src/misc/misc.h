@@ -16,6 +16,16 @@
         #define T_CLUST 0.5
     #endif
 
+// Pour passer d'une méthode de numérotation de graphe à l'autre
+    #ifndef T_KNOW
+        #define T_KNOW 0.5
+    #endif
+
+// Nombre de niveaux de sérendipité
+    #ifndef T_LEVEL
+        #define T_LEVEL 5
+    #endif
+
     #ifndef INFINITY
         #define INFINITY -1
     #endif
