@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "request.h"
+#include "../misc/types.h"
 #include "../models/cluster.h"
 #include "../distances/request2cluster.h"
 
@@ -11,15 +12,14 @@ namespace request{
     using namespace models;
     using namespace distances;
 
-    template<typename DObject>
     class Handler{
         protected:
-             std::unordered_map<BaseCluster<DObject>*, double> d_tab;
+             std::unordered_map<cluster_t*, double> d_tab;
         public:
             Handler(){}
             
-            bool comp(BaseCluster<DObject>* cl1, BaseCluster<DObject>* cl2);
-            void prepare(std::vector<BaseCluster<DObject>*>& cls, Request* rq);
+            static bool comp(cluster_t* cl1, cluster_t* cl2, std::unordered_map<cluster_t*, double>& d_tab);
+            std::vector<cluster_t*> prepare(clusters_t& cls, Request& rq);
     };
 
 }

@@ -43,6 +43,8 @@ namespace models{
             std::set<tag_t> tags;
 
         public:
+            BaseObject(){}
+
             BaseObject(object_id_t name) : name(name){}
 
             BaseObject(object_id_t name, i_attrs_t i_attrs, 
@@ -104,6 +106,9 @@ namespace models{
     template<typename Dist>
     class Object : public BaseObject{
         public:
+            Object(){}
+            Object(object_id_t name) : BaseObject(name){}
+            
             double d(Object<Dist>& obj){
                 return Dist()(this, &obj);
             }

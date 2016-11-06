@@ -36,13 +36,20 @@ class BaseAgent{
         std::map<cluster_id_t, float> cl_preferences;
 
     public:
-        BaseAgent();
+        BaseAgent(){}
+        
+        BaseAgent(agent_id_t _name) : name(_name){}
 
-        void set(object_id_t key, float value){
+        agent_id_t get_name(){ return name; }
+        
+        std::map<object_id_t, float>& get_obj_prefs(){ return obj_preferences;}
+        std::map<cluster_id_t, float>& get_cl_prefs(){ return cl_preferences;}
+
+        void set_obj(object_id_t key, float value){
             obj_preferences.insert(std::pair<object_id_t, float>(key, value));
         }
         
-        void set(cluster_id_t key, float value){
+        void set_cl(cluster_id_t key, float value){
             cl_preferences.insert(std::pair<cluster_id_t, float>(key, value));
         }
 
@@ -76,6 +83,10 @@ class BaseAgent{
 template<typename DistCl>
 class Agent : public BaseAgent{
     public: 
+        Agent() : BaseAgent(){}
+        
+        Agent(agent_id_t _name) : BaseAgent(_name){}
+
         template<typename DistObj>
         double dCl(Cluster<DistCl, DistObj>& cl){
             return DistCl()( this, &cl );

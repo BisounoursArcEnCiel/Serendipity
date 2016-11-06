@@ -5,7 +5,7 @@ CXXFLAGS+=-g
 
 CPPFLAGS = -D ENABLE_LOG_STATUS=1
 
-LDFLAGS= -lboost_serialization -lboost_filesystem -lboost_system -lboost_log -lboost_log_setup -lboost_thread
+LDFLAGS= -lboost_serialization -lboost_filesystem -lboost_system -lboost_log -lboost_log_setup -lboost_thread -lsqlite3
 LDFLAGS+= -pthread  -lboost_unit_test_framework
 
 

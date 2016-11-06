@@ -15,11 +15,13 @@
 #include <stddef.h>
 
 #include "object.h"
- namespace models{
+
+
+namespace models{
          
 
      typedef uint64_t cluster_id_t;
-      
+     static uint64_t cluster_counter = 0;      
      /**
       *  @class BaseCluster
       *  @brief
@@ -28,10 +30,10 @@
      template<typename DistObj>
     class BaseIterator : std::iterator<std::forward_iterator_tag, BaseObject >{
         protected:
-            typename std::map<object_id_t, BaseObject>::iterator it;
-            typedef std::map<object_id_t, BaseObject> map_t;
+            typename std::map<object_id_t, BaseObject*>::iterator it;
+            typedef std::map<object_id_t, BaseObject*> map_t;
         public:
-            typedef BaseObject value_type;
+            typedef BaseObject* value_type;
      /*       typedef size_t size_type;
             typedef ptrdiff_t  difference_type;
             typedef BaseObject         *pointer;
@@ -39,10 +41,23 @@
             typedef BaseObject         &reference;
             typedef const BaseObject   &const_reference;
     */
+
+            BaseIterator(){}
+            
             BaseIterator(map_t& map){
                 it = map.begin();
             }
-    
+            
+            map_t::iterator get_it(){ return it; }
+
+            bool operator!=(BaseIterator<DistObj> it1){
+                return it != it1.get_it();
+            }
+
+           bool operator==(BaseIterator<DistObj> it1){
+                return it == it1.get_it();
+            }
+
             value_type &operator*(){ 
                 return it->second; 
             }
@@ -52,15 +67,13 @@
             }
             
             value_type &operator++(){
-                return it++;
+                return (it++)->second;
             }
     };
 
      template<typename DistObj>
      class BaseCluster{
         protected:
-            static uint64_t counter;
-            
             /** @brief Should be a unique identifier **/
             cluster_id_t id = 0;
             
@@ -68,17 +81,21 @@
              * @brief
              * @warning a cluster does not owned objects
              * **/
-            std::map<object_id_t, BaseObject> objects;
+            std::map<object_id_t, BaseObject*> objects;
 
 
         public:
             BaseCluster(){
-                id = counter++;
+                id = cluster_counter;
             }
-            
+
+
+            BaseCluster(cluster_id_t _id):id(_id){}
+
+            cluster_id_t get_id(){ return id;}
+
             void add(BaseObject* obj){
-                objects.insert( std::pair<object_id_t, BaseObject>(
-                    obj->name, obj));     
+                objects[obj->get_name()]= obj;
             }
             
             void add(BaseObject& obj){
@@ -110,7 +127,7 @@
              */
             int intersect(BaseCluster* cl){
                 int i = 0;
-                for(std::map<object_id_t, BaseObject>::iterator it= objects.begin;
+                for(std::map<object_id_t, BaseObject*>::iterator it= objects.begin;
                         it != objects.end(); ++it){
                     i += cl->exists(it->second) ? 1 : 0;
                 }
@@ -149,11 +166,17 @@
             typedef BaseIterator<DistObj> Iterator; 
             Iterator begin(){ return Iterator(objects); }
             Iterator end(){ return Iterator(objects); }
+
+
      };
     
     template<typename Dist, typename DistObj>
     class Cluster : public BaseCluster<DistObj>{
         public:
+            Cluster() : BaseCluster<DistObj>(){}
+
+            Cluster(cluster_id_t _id) : BaseCluster<DistObj>(_id){}
+
             double d(BaseCluster<DistObj>& cl){
                 return Dist()(this, &cl);
             }
@@ -161,10 +184,6 @@
             double d(BaseCluster<DistObj>* cl){
                 return Dist()(this, cl);
             }
-
-	    int get_id(BaseCluster<DistObj>* cl) {
-		return cl.id;
-	    }
 
     };
 

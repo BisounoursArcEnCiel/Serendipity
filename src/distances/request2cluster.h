@@ -22,7 +22,17 @@ namespace distances{namespace rq2cl{
         public:
             D(){}
 
-            double d(Request* rq, BaseCluster<DistObj>* cl);
+            double d(Request* rq, BaseCluster<DistObj>* cl){
+                double d = 0;
+                for(typename BaseCluster<DistObj>::Iterator it=cl->begin(); 
+                        it != cl->end(); ++it){
+                    d += rq2obj::D().d(rq, *it); 
+                }
+                d /= cl->size();
+                
+                return d;
+
+            }
             double operator() (Request* rq, BaseCluster<DistObj>* cl){
                 return d(rq, cl);
             }
