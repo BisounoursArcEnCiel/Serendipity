@@ -1,16 +1,15 @@
 Laurent :
 - Doc pour les classes
 - Notions de diversité
+- Distances
 
 Clémence :
-- Algorithme pour renvoyer un objet étant donné un niveau de sérendipité 
-et un graphe des clusters associé à un agent (GRAPHE -> MATRIX)
-Piocher aléatoirement un objet dans chacun des trois premiers clusters dans l'ordre de diversité appartenant au bon niveau de serendipité
-- Numérotation des noeuds dans le graphe des clusters selon le niveau de sérendipité : choisir le centre du champ de l'agent (cluster avec préférence par l'agent > d_lim2) et donner une largeur l des niveaux de sérendipité, quand d(cluster, centre) > i*l => affecter le label i au cluster cluster
 - Doc pour les algorithmes
 - Stockage des graphes, clusters, objets, agents (BdD, texte ?)
 
 A faire :
+- Tests
+- Implémenter les approches communiste et capitaliste
 - Compléter le README
 - interface utilisateur
 - exceptions

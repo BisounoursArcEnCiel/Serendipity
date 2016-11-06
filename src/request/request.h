@@ -50,7 +50,7 @@ class Request{
                     data = tmp[2];
                 }else{
                     status = -1;
-                    fprintf(stderr, "Invalide request\n");
+                    fprintf(stderr, "Invalid request\n");
                     break;
                 }
                     

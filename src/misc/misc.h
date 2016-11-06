@@ -1,8 +1,34 @@
 #ifndef MISC_H
     #define MISC_H
 
+// Pour les arêtes du graphe des blobs
     #ifndef D_LIM
         #define D_LIM 0.5
+    #endif
+
+// Pour rapprocher deux objets de deux blobs différents
+    #ifndef T_BLOB
+        #define T_BLOB 0.5
+    #endif
+
+// Pour créer un nouveau cluster dans K-Means
+    #ifndef T_CLUST
+        #define T_CLUST 0.5
+    #endif
+
+// Pour passer d'une méthode de numérotation de graphe à l'autre
+    #ifndef T_KNOW
+        #define T_KNOW 0.5
+    #endif
+
+// Nombre de niveaux de sérendipité
+    #ifndef T_LEVEL
+        #define T_LEVEL 5
+    #endif
+
+// Pour la pertinence vis-à-vis d'une requête
+    #ifndef T_REQ
+        #define T_REQ 50
     #endif
 
     #ifndef INFINITY
