@@ -100,6 +100,7 @@ namespace managers{
 
             static int init_obj(void* _objects, int argc, char **argv,
                     char**col_names){
+                col_names = NULL;
                 assert(argc == 3);
                 const std::string name = argv[0]; 
                 const std::string i_attrs = argv[1];

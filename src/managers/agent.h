@@ -113,6 +113,7 @@ namespace managers{
 
             static int init_ag(void* _agents, int argc, char **argv, 
                 char **col_names){
+                col_names = NULL;
                 assert( argc == 1);
                 models::agent_id_t name = argv[0];
                 agents_t* agents_ptr=reinterpret_cast<agents_t*>(_agents);        
@@ -123,6 +124,7 @@ namespace managers{
 
             static int init_obj_prefs(void* _pair, int argc, char **argv, 
                 char **col_names){
+                col_names = NULL;
                 assert(argc==3);
                 models::agent_id_t ag_id = argv[0];
                 models::object_id_t obj_id = argv[1];
@@ -136,6 +138,7 @@ namespace managers{
             
             static int init_cl_prefs(void* _pair, int argc, char **argv, 
                 char **col_names){
+                col_names = NULL;
                 assert(argc==3);
                 models::agent_id_t ag_id = argv[0];
                 models::cluster_id_t cl_id = std::stoi(argv[1]);

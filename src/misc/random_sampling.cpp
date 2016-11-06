@@ -3,62 +3,64 @@
 #include <tuple>
 
 #include "misc.h"
-#include <models/object.h>
+#include "types.h"
+#include "../models/object.h"
 
-typedef tuple<vector<object>, vector<object>> sampling;
+using namespace std;
+typedef pair<vector<object_t*>, vector<object_t*>> sampling;
 
 //___________________________________________________________________
 // SWAPPING STEP
 
-sampling swap(vector<object>set, vector<object>reservoir, object e, int i, int j) {
+sampling swap(vector<object_t*>set, vector<object_t*>reservoir, object_t* e, int i, int j) {
     sampling res;
     // Les names sont des identifiants uniques
-    if (set[i].get_name() == e.get_name()) {
+    if (set[i]->get_name() == e->get_name()) {
         set[i] = reservoir[j];
     };
     reservoir[j] = e;
-    get<0>res = set;
-    get<1>res = reservoir;
-    return (res);
+    res.first = set;
+    res.second = reservoir;
+    return res;
 };
 
 //___________________________________________________________________
 // SELECTION STEP
 
-vector<object> random_selection(vector<object>initSet, vector<object>reservoir, int k) {
+vector<object_t*> random_selection(vector<object_t*>initSet, vector<object_t*>reservoir, int k) {
     int n = initSet.size();
     if (k > n) {
-        return (reservoir);
-    };
+        return reservoir;
+    }
     if (k == n) {
-	return (initSet);
-    };
+    	return initSet;
+    }
     
     int i, j;
     sampling s;
-    vector<object> set;
+    vector<object_t*> set;
 
     // Initialisation du réservoir
     for(j=0; j < k; ++j) {
-	reservoir.push_back(initSet[j]);
-    };
+	    reservoir.push_back(initSet[j]);
+    }
     
     // Initialisation du set
     for(i=0; i < k; ++i) {
-	object oo;
-	set[i] = oo;
-    };
+	    set[i] = NULL;
+    }
+
     for(i=k; i < n; ++i) {
-	set[i] = initSet[i];
-    };
+	    set[i] = initSet[i];
+    }
 
     srand (time(NULL));
     for(i=k; i < n; ++i) {
 	j = rand() % i;
 	if (j < k) {
 	    s = swap(set, reservoir, initSet[i], i, j);
-	    set = get<0>s;
-	    reservoir = get<1>s;
+	    set = s.first;
+	    reservoir = s.second;
 	};
     };
     return (reservoir);

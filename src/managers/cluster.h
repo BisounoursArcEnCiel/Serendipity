@@ -99,6 +99,7 @@ namespace managers{
 
             static int init_cl(void* _clusters, int argc, char **argv, 
                 char **col_names){
+                col_names = NULL;
                 assert( argc == 1);
                 models::cluster_id_t id = std::stoi(argv[0]);
                 clusters_t* clusters_ptr=reinterpret_cast<clusters_t*>(_clusters);        
@@ -109,6 +110,7 @@ namespace managers{
 
             static int init_ownership(void* _pair, int argc, char **argv, 
                 char **col_names){
+                col_names = NULL;
                 assert(argc==2);
                 models::cluster_id_t cl_id = std::stoi(argv[0]);
                 models::object_id_t obj_id = argv[1];

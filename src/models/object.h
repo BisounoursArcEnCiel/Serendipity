@@ -117,9 +117,9 @@ namespace models{
                 return Dist()(this, obj);
             }
 
-	    char* get_name(Object<Dist> obj) {
-		return obj.name;
-	    }
+	        object_id_t get_name() {
+		        return name;
+	        }
     };
 };
 #endif 
