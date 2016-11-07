@@ -48,7 +48,7 @@ namespace managers{
                     int rc = sqlite3_exec(db, cmd[i], callback, 0, 
                             &err_msg);
                     if(rc != SQLITE_OK){
-                        fprintf(stderr, "SQL error init agent, %d: %s\n", i, err_msg); 
+                        fprintf(stderr, "SQL error init agent, %zu: %s\n", i, err_msg); 
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -90,7 +90,7 @@ namespace managers{
                 for(size_t i=0; i<3; i++){
                     int rc = sqlite3_exec(db, cmd[i].c_str(),  callback, 0, &err_msg); 
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error insert agent, %d: %s\ncmd : %s\n", i, err_msg, cmd[i].c_str());
+                        fprintf(stderr, "SQL error insert agent, %zu: %s\ncmd : %s\n", i, err_msg, cmd[i].c_str());
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -113,8 +113,7 @@ namespace managers{
 
             static int init_ag(void* _agents, int argc, char **argv, 
                 char **col_names){
-                col_names = NULL;
-                assert( argc == 1);
+                assert( argc == 1 && std::string(col_names[0]) == "id");
                 models::agent_id_t name = argv[0];
                 agents_t* agents_ptr=reinterpret_cast<agents_t*>(_agents);        
 
@@ -124,8 +123,7 @@ namespace managers{
 
             static int init_obj_prefs(void* _pair, int argc, char **argv, 
                 char **col_names){
-                col_names = NULL;
-                assert(argc==3);
+                assert(argc==3 && std::string(col_names[0])== "ag_id");
                 models::agent_id_t ag_id = argv[0];
                 models::object_id_t obj_id = argv[1];
                 float p = std::stof( argv[2] );
@@ -138,8 +136,7 @@ namespace managers{
             
             static int init_cl_prefs(void* _pair, int argc, char **argv, 
                 char **col_names){
-                col_names = NULL;
-                assert(argc==3);
+                assert(argc==3 && std::string(col_names[0]) == "ag_id");
                 models::agent_id_t ag_id = argv[0];
                 models::cluster_id_t cl_id = std::stoi(argv[1]);
                 float p = std::stof(argv[2]); 
@@ -169,11 +166,11 @@ namespace managers{
                         rc=sqlite3_exec(db, cmd[i], init_cl_prefs, &pair1, &err_msg);
                     
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error init agents, %d: %s\ncmd : %s\n", i, err_msg, cmd[i]);
+                        fprintf(stderr, "SQL error init agents, %zu: %s\ncmd : %s\n", i, err_msg, cmd[i]);
                         sqlite3_free(err_msg);
                         return false;
                     }else{
-                        fprintf(stdout, "Operation done successfully\n");
+                        fprintf(stdout, "Operation init agents done successfully\n");
                     }    
                 }
                 return true;

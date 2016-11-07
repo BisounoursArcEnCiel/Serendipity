@@ -120,6 +120,11 @@ class Engine{
 
             return true;
         }
+        
+        bool prepare(){
+            assert( objects.size() > 0 && agents.size() > 0);
+            return true;
+        }
 
         string process(Request& request){
             Handler reqHandler;

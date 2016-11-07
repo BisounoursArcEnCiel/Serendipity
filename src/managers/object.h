@@ -32,7 +32,7 @@ namespace managers{
             }
 
             bool init(){
-                const char* cmd = "CREATE TABLE object(id varchar(128) \ 
+                const char* cmd = "CREATE TABLE object(id varchar(128) \
                     PRIMARY KEY NOT NULL, i_attrs text, str_attrs text)";
                 int rc = sqlite3_exec(db, cmd, callback, 0, &err_msg);
                 if(rc != SQLITE_OK){
@@ -101,8 +101,7 @@ namespace managers{
 
             static int init_obj(void* _objects, int argc, char **argv,
                     char**col_names){
-                (void*)col_names;
-                assert(argc == 3);
+                assert(argc == 3 && std::string(col_names[0]) == "id");
                 const std::string name = argv[0]; 
                 const std::string i_attrs = argv[1];
                 const std::string str_attrs = argv[2];

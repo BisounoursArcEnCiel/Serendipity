@@ -33,7 +33,9 @@ int main(int argc, char** argv){
         else if( string(argv[i]) == "--import"){
             engine.import_movielens(argv[i+1], argv[i+2]);
             i+=2;
-        }else if( string(argv[i]) == "--save")
+        }else if(string(argv[i]) == "--prepare")
+            engine.prepare();
+        else if( string(argv[i]) == "--save")
             engine.save(argv[++i]);
         else{
             Request request(argv[i]); 

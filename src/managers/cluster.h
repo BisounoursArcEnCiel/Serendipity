@@ -47,7 +47,7 @@ namespace managers{
                     int rc = sqlite3_exec(db, cmd[i], callback, 0, 
                             &err_msg);
                     if(rc != SQLITE_OK){
-                        fprintf(stderr, "SQL error init cluster, %d : %s\n", i, err_msg); 
+                        fprintf(stderr, "SQL error init cluster, %zu : %s\n", i, err_msg); 
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -76,7 +76,7 @@ namespace managers{
                 for(size_t i=0; i<2; i++){
                     int rc = sqlite3_exec(db, cmd[i].c_str(),  callback, 0, &err_msg); 
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error insert cluster, %d: %s\n cmd : \n", i, err_msg, cmd[i].c_str());
+                        fprintf(stderr, "SQL error insert cluster, %zu: %s\n cmd : %s\n", i, err_msg, cmd[i].c_str());
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -99,8 +99,7 @@ namespace managers{
 
             static int init_cl(void* _clusters, int argc, char **argv, 
                 char **col_names){
-                col_names = NULL;
-                assert( argc == 1);
+                assert( argc == 1 && std::string(col_names[0]) == "id");
                 models::cluster_id_t id = std::stoi(argv[0]);
                 clusters_t* clusters_ptr=reinterpret_cast<clusters_t*>(_clusters);        
 
@@ -110,8 +109,7 @@ namespace managers{
 
             static int init_ownership(void* _pair, int argc, char **argv, 
                 char **col_names){
-                col_names = NULL;
-                assert(argc==2);
+                assert(argc==2 && std::string(col_names[0]) == "cl_id");
                 models::cluster_id_t cl_id = std::stoi(argv[0]);
                 models::object_id_t obj_id = argv[1];
                 std::pair<objects_t*, clusters_t*>* ptr=reinterpret_cast<
@@ -134,11 +132,8 @@ namespace managers{
                         rc=sqlite3_exec(db, cmd[i], init_cl, &clusters, &err_msg);
                     else
                         rc=sqlite3_exec(db, cmd[i], init_ownership, &pair0, &err_msg);
-                    //int rc = sqlite3_exec(db, cmd[i], 
-                    //        (i==0) ? init_cl : init_ownership, 
-                    //        (i==0) ? clusters : pair0, &err_msg);
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error init clusters, %d: %s\n", i, err_msg);
+                        fprintf(stderr, "SQL error init clusters, %zu: %s\n", i, err_msg);
                         sqlite3_free(err_msg);
                         return false;
                     }else{
