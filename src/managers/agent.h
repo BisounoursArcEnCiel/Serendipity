@@ -39,7 +39,7 @@ namespace managers{
             }
 
             bool init(){
-                const char* cmd1 = "CREATE TABLE agent(id varchar(256))";
+                const char* cmd1 = "CREATE TABLE agent(id varchar(256) PRIMARY KEY NOT NULL)";
                 const char* cmd2 = "CREATE TABLE obj_pref(ag_id varchar(256), obj_id varchar(128), p float)";
                 const char* cmd3 = "CREATE TABLE cl_pref(ag_id varchar(256), cl_id  bigint, p float )";
                 const char* cmd[3] = {cmd1, cmd2, cmd3};
@@ -48,7 +48,7 @@ namespace managers{
                     int rc = sqlite3_exec(db, cmd[i], callback, 0, 
                             &err_msg);
                     if(rc != SQLITE_OK){
-                        fprintf(stderr, "SQL error : %s\n", err_msg); 
+                        fprintf(stderr, "SQL error init agent, %d: %s\n", i, err_msg); 
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -70,6 +70,7 @@ namespace managers{
                     cmd2 += "(" + it->first + ",";
                     cmd2 += ag->get_name() + "," + std::to_string(it->second) +")";
                 }
+                cmd2 = (obj_prefs.empty()) ? "" : cmd2;
 
                 std::string cmd3="INSERT INTO cl_pref(ag_id, cl_id, p) VALUES";
                 std::map<models::cluster_id_t, float> cl_prefs = ag->get_cl_prefs();
@@ -81,6 +82,7 @@ namespace managers{
                     cmd3 += "(" + std::to_string(it->first) + ",";
                     cmd3 += ag->get_name() + "," + std::to_string(it->second) +")";
                 }
+                cmd3 = (cl_prefs.empty()) ? "" : cmd3;
 
                 std::string cmd[3] = {cmd1, cmd2, cmd3};
                 
@@ -88,11 +90,9 @@ namespace managers{
                 for(size_t i=0; i<3; i++){
                     int rc = sqlite3_exec(db, cmd[i].c_str(),  callback, 0, &err_msg); 
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error: %s\n", err_msg);
+                        fprintf(stderr, "SQL error insert agent, %d: %s\ncmd : %s\n", i, err_msg, cmd[i].c_str());
                         sqlite3_free(err_msg);
                         return false;
-                    }else{
-                        fprintf(stdout, "Records created successfully\n");
                     }
                 }
                 return true;
@@ -152,8 +152,8 @@ namespace managers{
 
             bool init_ags(){    
                 const char* cmd1 = "SELECT * FROM agent";
-                const char* cmd2 = "SELECT * FROM obj_prefs";
-                const char* cmd3 = "SELECT * FROM cl_prefs";
+                const char* cmd2 = "SELECT * FROM obj_pref";
+                const char* cmd3 = "SELECT * FROM cl_pref";
                 const char* cmd[3] = {cmd1, cmd2, cmd3};
                 
                 std::pair<objects_t*, agents_t*> pair0(&objects, &agents);
@@ -167,11 +167,9 @@ namespace managers{
                         rc=sqlite3_exec(db, cmd[i], init_obj_prefs, &pair0, &err_msg);
                     else
                         rc=sqlite3_exec(db, cmd[i], init_cl_prefs, &pair1, &err_msg);
-//int rc = sqlite3_exec(db, cmd[i], 
-                    //        (i==0) ? init_cl : init_ownership, 
-                    //        (i==0) ? agents : pair0, &err_msg);
+                    
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error: %s\n", err_msg);
+                        fprintf(stderr, "SQL error init agents, %d: %s\ncmd : %s\n", i, err_msg, cmd[i]);
                         sqlite3_free(err_msg);
                         return false;
                     }else{

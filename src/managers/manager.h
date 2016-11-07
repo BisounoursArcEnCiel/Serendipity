@@ -9,7 +9,8 @@
 #define MANAGERS_MANAGER_H
 
 #include <sqlite3.h>
-
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 
 namespace managers{
     class Manager{
@@ -48,7 +49,7 @@ namespace managers{
                 return 0;
             }
 
-            virtual bool init()=0;
+            virtual bool init(){ return true;}
     };
 
 };

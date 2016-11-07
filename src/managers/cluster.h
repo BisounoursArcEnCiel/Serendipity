@@ -37,15 +37,17 @@ namespace managers{
             }
 
             bool init(){
-                const char* cmd1 = "CREATE TABLE cluster(id bigint)";
-                const char* cmd2 = "CREATE TABLE owned(cl_id bigint, obj_id varchar(128))";
+                const char* cmd1 = "CREATE TABLE cluster(id bigint PRIMARY KEY \
+                                    NOT NULL)";
+                const char* cmd2 = "CREATE TABLE owned(cl_id bigint, \
+                                    obj_id varchar(128))";
                 const char* cmd[2] = {cmd1, cmd2};
                 
                 for(size_t i=0; i<2; ++i){
                     int rc = sqlite3_exec(db, cmd[i], callback, 0, 
                             &err_msg);
                     if(rc != SQLITE_OK){
-                        fprintf(stderr, "SQL error : %s\n", err_msg); 
+                        fprintf(stderr, "SQL error init cluster, %d : %s\n", i, err_msg); 
                         sqlite3_free(err_msg);
                         return false;
                     }
@@ -74,11 +76,9 @@ namespace managers{
                 for(size_t i=0; i<2; i++){
                     int rc = sqlite3_exec(db, cmd[i].c_str(),  callback, 0, &err_msg); 
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error: %s\n", err_msg);
+                        fprintf(stderr, "SQL error insert cluster, %d: %s\n cmd : \n", i, err_msg, cmd[i].c_str());
                         sqlite3_free(err_msg);
                         return false;
-                    }else{
-                        fprintf(stdout, "Records created successfully\n");
                     }
                 }
                 return true;
@@ -138,11 +138,11 @@ namespace managers{
                     //        (i==0) ? init_cl : init_ownership, 
                     //        (i==0) ? clusters : pair0, &err_msg);
                     if( rc != SQLITE_OK ){
-                        fprintf(stderr, "SQL error: %s\n", err_msg);
+                        fprintf(stderr, "SQL error init clusters, %d: %s\n", i, err_msg);
                         sqlite3_free(err_msg);
                         return false;
                     }else{
-                        fprintf(stdout, "Operation done successfully\n");
+                        fprintf(stdout, "Operation init clusters done successfully\n");
                     }    
                 }
                 return true;

@@ -8,6 +8,8 @@
 
 #include "request/request.h"
 
+#include "pluggins/movielens.h"
+
 #include "managers/object.h"
 #include "managers/cluster.h"
 #include "managers/agent.h"
@@ -27,10 +29,40 @@ class Engine{
 
     public:
         Engine(){}
+        
+        bool init(const char* db_path){
+            bool status = true;
+            
+            managers::Object objectManager(db_path, objects);
+            status = objectManager.init();       
+            objectManager.close();
+            
+            if(!status)
+                return false;
+
+            managers::Cluster clusterManager(db_path, objects, clusters);
+            status = clusterManager.init();
+            clusterManager.close();
+
+            if(!status)
+                return false;
+
+
+            managers::Agent agentManager(db_path, objects, clusters, agents);
+            status = agentManager.init();
+            agentManager.close();
+            
+            if(!status)
+                return false;
+
+            return true;
+
+            
+        }
 
         bool load(const char* db_path){
             bool status = true;
-            
+            printf("it's work\n");            
             managers::Object objectManager(db_path, objects);
             status = objectManager.init_objs();       
             objectManager.close();
@@ -56,11 +88,45 @@ class Engine{
             return true;
         }
 
+        bool import_movielens(const char* ag_path, const char* obj_path){
+            if( !pluggins::movielens::import_obj(obj_path, objects))
+                return false;
+            return pluggins::movielens::import_ag(ag_path, agents, objects);
+        }
+        
+        bool save(const char* db_path){
+            bool status = true;
+
+            managers::Object objectManager(db_path, objects);
+            status = objectManager.insert();
+            objectManager.close();
+
+            if(!status)
+                return false;
+
+            managers::Cluster clusterManager(db_path, objects, clusters);
+            status = clusterManager.insert();
+            clusterManager.close();
+            
+            if(!status)
+                return false;
+
+            managers::Agent agentManager(db_path, objects, clusters, agents);
+            status = agentManager.insert();
+            agentManager.close();
+
+            if(!status)
+                return false;
+
+            return true;
+        }
+
         string process(Request& request){
             Handler reqHandler;
             vector<cluster_t*> _clusters = reqHandler.prepare(clusters, request);
             return "";
         }
+
 };
 
 #endif
