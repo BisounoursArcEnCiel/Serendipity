@@ -26,8 +26,15 @@ int main(int argc, char** argv){
     vector<Request> requests;
 
     for(int i=1; i<argc; i++){
-        if( string(argv[i]) == "--load" )
+        if( string(argv[i]) == "--init")
+            engine.init(argv[++i]);
+        else if( string(argv[i]) == "--load" )
             engine.load(argv[++i]);
+        else if( string(argv[i]) == "--import"){
+            engine.import_movielens(argv[i+1], argv[i+2]);
+            i+=2;
+        }else if( string(argv[i]) == "--save")
+            engine.save(argv[++i]);
         else{
             Request request(argv[i]); 
             request.print();
