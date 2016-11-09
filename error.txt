@@ -1,0 +1,2 @@
+g++ -D ENABLE_LOG_STATUS=1  -c -o src/managers/agent.o  src/managers/agent.cpp -std=c++11 -DBOOST_LOG_DYN_LINK -W -Wall -Wno-reorder -Wunreachable-code -g
+Makefile:43: recipe for target 'src/managers/agent.o' failed

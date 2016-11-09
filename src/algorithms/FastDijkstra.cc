@@ -29,9 +29,9 @@ VI Dijkstra(VPII edges, int s) {
         dist[it->second] = dist[here] + it->first;
         dad[it->second] = here;
         Q.push (pair<int, int>(dist[it->second], it->second));
-      }
-    }
-  }
+      };
+    };
+  };
   // dist contains distances
   return (dist);
-}
+};

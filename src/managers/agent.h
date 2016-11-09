@@ -15,7 +15,7 @@
 #include <set>
 
 #include <boost/algorithm/string.hpp>
-#include <sqlite3.h>
+#include "sqlite/sqlite3.h"
 
 #include "utility.h"
 #include "manager.h"
