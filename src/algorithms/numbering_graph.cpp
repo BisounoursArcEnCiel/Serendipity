@@ -2,7 +2,7 @@
 #include "../models/agent.h"
 #include "../models/object.h"
 #include "../graphs/matrix.h"
-#include <FastDijkstra.cc>
+#include "FastDijkstra.cc"
 #include "../misc/misc.h"
 
 #include <utility>

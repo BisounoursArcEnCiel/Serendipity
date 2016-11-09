@@ -6,7 +6,8 @@
 // USAGE: edges: pair of weight/destination, source, target
 
 #include <utility>
-#include <../misc/misc.h>
+#include <queue>
+#include "../misc/misc.h"
 
 using namespace std;
 
@@ -24,13 +25,13 @@ VI Dijkstra(VPII edges, int s) {
     PII p = Q.top();
     Q.pop();
     int here = p.second;
-    for(VPII::iterator it=edges[here].begin(); it!=edges[here].end(); it++){
+    /*for(VPII::iterator it=edges[here].begin(); it!=edges[here].end(); it++){
       if(dist[here] + it->first < dist[it->second]){
         dist[it->second] = dist[here] + it->first;
         dad[it->second] = here;
         Q.push (pair<int, int>(dist[it->second], it->second));
       }
-    }
+    }*/
   }
   // dist contains distances
   return (dist);

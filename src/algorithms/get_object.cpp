@@ -1,13 +1,14 @@
 #include "../models/object.h"
-#include "../graph/matrix.h"
+#include "../graphs/matrix.h"
 #include "../request/request.h"
 #include "../models/cluster.h"
 #include "../models/agent.h"
+#include "../misc/types.h"
 #include "numbering_graph.cpp"
 
 using namespace std;
 
-typedef <cluster, int> labelBlob;
+typedef <cluster_t, int> labelBlob;
 
 int compare(labelBlob i, labelBlob j) {
     int li = get<1>i;
@@ -18,7 +19,7 @@ int compare(labelBlob i, labelBlob j) {
 
 //_____________________________________________________________________________________
 // Retourne les blobs triés selon le niveau de sérendipité
-vector<cluster> num_s_level(int seren_level, Matrix graph, Agent a, vector<object>objects, vector<cluster>blobs) {
+vector<cluster_t*> num_s_level(int seren_level, Matrix<d_cl, d_obj>& graph, Agent a, vector<object_t*>objects, vector<cluster_t*>blobs) {
     vector<int> labels = number_graph(graph, a, objects, blobs);
     int n = labels.size();
     int i;
