@@ -11,7 +11,7 @@
 #include <vector>
 #include <list>
 
-#include "../config.h"
+#include "../misc/types.h"
 #include "graph.h"
 
 namespace graphs{
@@ -34,25 +34,36 @@ namespace graphs{
             Matrix(){}
 
             void add(node_t* node){
-                if( index.count(node.id) > 0 )
+                if( index.count(node->get_id()) > 0 )
                     return;
                 
                 size_t n = index.size();
-                r_index( std::pair<node_id_t, size_t>(node->id, n));
+                r_index.insert( std::pair<node_id_t, size_t>(node->get_id(), n) );
                 index.insert( std::pair<size_t, node_t*>(n, node));
                 matrix.push_back( std::vector<double>(n+1, INFINITY));
                 matrix[n][n] = 0;
 
                 for(size_t i=0; i<n; i++){
-                    double d = node->d(index(i));
+                    double d = node->d(index[i]);
                     d = (d > D_LIM) ? INFINITY : d;
 
                     matrix[i].push_back(d);
                     matrix[n][i] = d;               
                 }
             }
+	    
+            void remove(node_id_t id){
+		if( index.count(id) > 0 )
+                    return;
 
-            void remove(node_t* node){
+                size_t n = r_index[id];
+                index.erase(n);
+                r_index.erase(id);
+                matrix.erase(matrix.begin()+n);
+                for(size_t i=0; i<matrix.size(); i++)
+                    matrix[i].erase(matrix[i].begin()+n);
+            } 
+           /* void remove(node_t* node){
                 if( index.count(node.id) > 0 )
                     return;
 
@@ -62,7 +73,7 @@ namespace graphs{
                 matrix.erase(matrix.begin()+n);
                 for(size_t i=0; i<matrix.size(); i++)
                     matrix[i].erase(matrix[i].begin()+n);
-            }
+            }*/
 
             neighbours_t get_neighbours(node_id_t& id){
                 size_t n = r_index[id];

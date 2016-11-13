@@ -1,6 +1,7 @@
 **/*.o
 **/*~
 **/.*.swp
+**/*.sql
 serendipity
 
 doc/html

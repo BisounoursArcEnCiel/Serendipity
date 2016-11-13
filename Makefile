@@ -65,6 +65,6 @@ cleanfiles: cleanlog cleandoc
 
 mrproper: clean cleanfiles
 	rm -rf $(EXEC)
-
+	rm -rf *.sql
 doc:
 	doxygen

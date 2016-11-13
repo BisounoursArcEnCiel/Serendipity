@@ -1,0 +1,8 @@
+- dans u.data tu as les ratings avec {user id};{item id};{rating}
+- dans u.item tu as les items avec {item id};{titre du film};{19 trucs dans 0,1 qui correspondent au genre du film (1 s'il est du genre considéré)}
+
+Les 19 genres étant unknown | Action | Adventure | Animation |
+              Children's | Comedy | Crime | Documentary | Drama | Fantasy |
+                            Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi |
+                                          Thriller | War | Western |
+                                          dans cet ordre.

@@ -14,6 +14,7 @@
 using namespace distances;
 
 typedef obj2obj::D d_obj; 
+typedef cl2cl::D<d_obj> d_cl;
 
 typedef models::Object<obj2obj::D> object_t;
 typedef models::Cluster<cl2cl::D<obj2obj::D>, obj2obj::D> cluster_t;
