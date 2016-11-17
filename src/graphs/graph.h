@@ -57,8 +57,8 @@ namespace graphs{
             /**
              * @brief Get neighbours of current node
              */
-            virtual neighbours_t get_neighbours(node_id_t& id) = 0;
-            neighbours_t operator [](node_id_t& id){
+            virtual neighbours_t get_neighbours(node_id_t id) = 0;
+            neighbours_t operator [](node_id_t id){
                 return get_neighbours(id);
             }
             neighbours_t operator [](node_t* cl){
@@ -72,7 +72,7 @@ namespace graphs{
             /**
              * @brief Get neighbours of current node
              */
-            virtual double get(node_id_t& id1, node_id_t& id2) = 0;
+            virtual double get(node_id_t id1, node_id_t id2) = 0;
             double operator ()(node_id_t id1, node_id_t id2){
                 return get(id1, id2);
             }

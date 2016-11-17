@@ -1,10 +1,11 @@
 // Implémentation de l'algorithme de Dijkstra avec une matrice d'adjacence
 // Entrée : graphe + noeud de départ + tableau
 // (non initialisé) des distances + nombre de noeuds
-// (le chemin le plus court en lui-même ne nous intéresse pas)
+// (le chemin le plus court en lui-même ne nous uint64_téresse pas)
 
 #include <utility>
 #include <vector>
+#include <list>
 #include "../misc/misc.h"
 #include "../graphs/matrix.h"
 
@@ -12,20 +13,20 @@ using namespace std;
 using namespace graphs;
 
 typedef Matrix<d_cl, d_obj> matrix_t;
-typedef vector<int> VI;
+typedef vector<uint64_t> VI;
 typedef vector<float> VF;
 
-int length_tab(VI Q, int n) {
-    int cpt = 0;
-    for(int i=0; i < n; ++i) {
+uint64_t length_tab(VI Q, uint64_t n) {
+    uint64_t cpt = 0;
+    for(uint64_t i=0; i < n; ++i) {
 	if (Q[i]) ++cpt;
     };
     return cpt;
 };
 
 
-int get_next(VI Q, int n, int start) {
-    int i;
+uint64_t get_next(VI Q, uint64_t n, uint64_t start) {
+    uint64_t i;
     for(i=start; i < n; ++i) {
 	if (Q[i]) break; 
     };
@@ -36,11 +37,11 @@ int get_next(VI Q, int n, int start) {
 };
 
 
-int extract_min(VF distance, VI Q, int n) {
-    int next = get_next(Q, n, 0);
+uint64_t extract_min(VF distance, VI Q, uint64_t n) {
+    uint64_t next = get_next(Q, n, 0);
     float min = distance[next];
-    int node;
-    for(int i=next; i < n; ++i) {
+    uint64_t node;
+    for(uint64_t i=next; i < n; ++i) {
 	next = get_next(Q, n, next);
 	if (min > Q[next]) {
 	    min = Q[next];
@@ -51,8 +52,8 @@ int extract_min(VF distance, VI Q, int n) {
 };
 
 
-cluster_t lookforcluster(int id, vector<cluster_t*>& clusters, int n) {
-    int i;
+cluster_t* lookforcluster(uint64_t id, vector<cluster_t*>& clusters, uint64_t n) {
+    uint64_t i;
     for(i = 0; i < n; ++i) {
 	if (clusters[i]->get_id() == (cluster_id_t)id) {
 	    break;
@@ -62,9 +63,9 @@ cluster_t lookforcluster(int id, vector<cluster_t*>& clusters, int n) {
 };
 
 
-VF dijkstra(vector<cluster_t*>& clusters, matrix_t graph, int s, VF distance, int n) {
+VF dijkstra(vector<cluster_t*>& clusters, matrix_t& graph, uint64_t s, VF distance, uint64_t n) {
     //Initialisation du tableau des distances @distance
-    int i;
+    uint64_t i;
     VI Q;
     for (i=0; i < n; ++i) {
 	distance.push_back(INFINITY);
@@ -72,13 +73,12 @@ VF dijkstra(vector<cluster_t*>& clusters, matrix_t graph, int s, VF distance, in
     };
     distance[s] = 0;
     while (length_tab(Q, n)) {
-	int mini = extract_min(distance, Q, n);
+	uint64_t mini = extract_min(distance, Q, n);
         Q[mini] = 0;
-	cluster_t cl = lookforcluster(mini, clusters, n);
-	VI neighbors = graph.get_neighbours(&cl);
-	int len = neighbors.size();
-	for (i=0; i < len; ++i) {
-	    float temp = distance[neighbors[i]->get_id()] + 1;
+	cluster_t* cl = lookforcluster(mini, clusters, n);
+	list<cluster_t*> neighbors = graph.get_neighbours(cl->get_id());
+	for (list<cluster_t*>::iterator it=neighbors.begin(); it!=neighbors.end(); ++it){
+	    float temp = distance[(*it)->get_id()] + 1;
 	    if (temp < distance[mini]) {
 		distance[mini] = temp;
 	    };

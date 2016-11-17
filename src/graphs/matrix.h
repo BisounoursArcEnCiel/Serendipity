@@ -75,7 +75,7 @@ namespace graphs{
                     matrix[i].erase(matrix[i].begin()+n);
             }*/
 
-            neighbours_t get_neighbours(node_id_t& id){
+            neighbours_t get_neighbours(node_id_t id){
                 size_t n = r_index[id];
                 neighbours_t neighbours;
                 
@@ -86,7 +86,7 @@ namespace graphs{
                 return neighbours;
             }
 
-            double get(node_id_t& id1, node_id_t& id2){
+            double get(node_id_t id1, node_id_t id2){
                 size_t n1 = r_index[id1];
                 size_t n2 = r_index[id2];
 

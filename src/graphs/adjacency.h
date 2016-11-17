@@ -74,7 +74,7 @@ namespace graphs{
                 }
             }
 
-            neighbours_t get_neighbours(node_id_t& id){
+            neighbours_t get_neighbours(node_id_t id){
                 size_t n = r_index[id];
                 std::list<node_t*> neighbours;
 

@@ -16,7 +16,7 @@ typedef vector<float> VF;
 typedef Matrix<d_cl, d_obj> matrix_t;
 typedef pair<uint64_t, uint64_t> PII;
 typedef vector<pair<uint64_t, uint64_t>> VPII;
-typedef vector<uint64_t> VI;
+//typedef vector<uint64_t> VI;
 
 //_______________________________________________________________________
 // Calcul du coefficient de connaissance de l'agent
@@ -36,7 +36,7 @@ float knowledge(agent_t& a, vector<object_t*>& objects) {
 //_______________________________________________________________________
 // Détermine les centres du champ de l'agent
 vector<cluster_t*> get_centres(matrix_t& graph, agent_t& a, vector<cluster_t*>& blobs) {
-    vector<cluster_t> centres;
+    vector<cluster_t*> centres;
     float maxPref = INFINITY;
     uint64_t k = blobs.size();
     uint64_t i;
@@ -84,21 +84,24 @@ uint64_t d_edges(cluster_t* blob, vector<VI>& distances, vector<cluster_t*>& blo
 // Almost-zero knowledge approach
 vector<uint64_t> azka(Matrix<d_cl,d_obj> graph, agent_t& a, vector<uint64_t>& labels, vector<cluster_t*>& blobs) {
     vector<cluster_t*>centres;
-    centres = get_centres(graph, a, blobs, centres);
+    centres = get_centres(graph, a, blobs);
     uint64_t n_centres = centres.size();
     uint64_t n_blobs = blobs.size();
     uint64_t i;
-    VPII edges = convert(graph, n_blobs);
+    //VPII edges = convert(graph, n_blobs);
     vector<VF> distances;
     for (i = 0; i < n_centres; ++i) {
 	labels[centres[i]->get_id()] = 0;
 	VF distance;
-	distances.push_back(dijkstra(graph, centres[i]->get_id(), distance, n_blobs));
+	assert(false);
+    //ton appel de fonction sur dijstra est completement foireux
+    //distances.push_back(dijkstra(graph, centres[i]->get_id(), distance, n_blobs));
     };
 
     for (i = 0; i < n_blobs; ++i) {
 	if (labels[blobs[i]->get_id()] == INFINITY) {
-	    labels[blobs[i]->get_id()] = d_edges(blobs[i], distances, blobs);
+	    //ton appel de fct est foireux
+        //labels[blobs[i]->get_id()] = d_edges(blobs[i], distances, blobs);
 	};
     };
 
@@ -110,7 +113,9 @@ vector<uint64_t> azka(Matrix<d_cl,d_obj> graph, agent_t& a, vector<uint64_t>& la
 // T_LEVEL défini dans misc.h est la largeur du niveau de sérendipité
 vector<uint64_t> pba(Matrix<d_cl,d_obj>& graph, agent_t& a, vector<uint64_t>labels, vector<cluster_t*>blobs) {
     vector<cluster_t*>centres;
-    centres = get_centres(graph, a, blobs, centres);
+    assert(false);
+    //ton appel de fonction est foireux
+    //centres = get_centres(graph, a, blobs, centres);
     uint64_t n_centres = centres.size();
     uint64_t n_blobs = blobs.size();
     uint64_t i, j;
